@@ -1,0 +1,66 @@
+﻿
+@{
+    ViewBag.Title = "ValidateparenthesesTask4View";
+}
+
+<h2>Validate LISP Code</h2>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<!--Kendo CSS-->
+@Styles.Render("~/Content/kendo-css")
+
+<!--Kendo JS-->
+@Scripts.Render("~/bundles/jquery")
+@*@Scripts.Render("~/bundles/jqueryui")*@
+@Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/kendo")
+@Scripts.Render("~/bundles/app")
+<script>
+
+$(document).ready(function () {
+//***************************************************************************************************************************************************************************************************************************
+    $("#btnValidate").click(function () {
+
+        var LISPCode = document.getElementsByName('LISPCode')[0].value;
+        if (LISPCode != '') {
+
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("ValidateInput", "ValidateparenthesesTask4")",
+
+                data: { LISPCode: LISPCode },
+
+                success: function (data) {
+                    if (data == "Success") {
+                        alert('Input string has the balanced parentheses.');
+                    }
+                    else if (data == "Failed") {
+                        alert('String is invalid! Input string has not the balanced parentheses.');
+                    }
+
+                }
+
+            })
+
+        }
+        else {
+            alert('Please enter the valid input.');
+        }
+        });
+
+//***************************************************************************************************************************************************************************************************************************
+});
+</script>
+
+<div>
+
+    @Html.TextArea("LISPCode", new { @style = "color:black", cols = "20", rows = "20" })<br />
+    <input type="button" class="btn btn-primary ks-rounded" id="btnValidate" value="Validate" />&nbsp;
+</div>
